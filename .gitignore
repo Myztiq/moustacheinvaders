@@ -10,6 +10,8 @@ lib-cov
 .idea
 node_modules
 
+public/javascripts/game.js
+
 pids
 logs
 results
