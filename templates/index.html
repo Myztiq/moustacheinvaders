@@ -4,4 +4,30 @@
   <h1>Moustache Wars</h1>
   <canvas></canvas>
   <video></video>
+<div id="wait" style="display:none"></div>
+<div id="container" style="position:relative;"><canvas id="image" width="340" height="412"></canvas></div>
+<script>
+	var wait=document.getElementById('wait');
+	var canvas=document.getElementById('image');
+	var detector;
+	var image=new Image();
+	image.onload=function(){
+	wait.style.display='block';
+		canvas.width=image.width;
+		canvas.height=image.height;
+		canvas.getContext('2d').drawImage(image,0,0);
+		new HAAR.Detector(haarcascade_frontalface_alt).image(image).complete(function(){
+			wait.style.display='none';
+			for(i=0; i< this.objects.length; i++){
+			    var rect=this.objects[i];
+			    var ctx=canvas.getContext('2d');
+			    ctx.strokeStyle="rgba(0,0,0,1)";
+			    ctx.strokeRect(rect.x,rect.y,rect.width,rect.height);
+			}
+		}).detect(1, 1.25, 0.1, 1, true);
+	};
+	image.src='images/model1.jpg';
+	</script>
+
+
 {% endblock %}
