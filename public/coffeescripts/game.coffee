@@ -45,36 +45,37 @@ $document.ready ()->
     fHeight =  faceData.height + padding*2 #Face Height
 
     imgData = ctx.getImageData(faceData.x - faceData.width / 2 - padding, faceData.y - faceData.height / 2 - padding, fWidth, fHeight)
+
+    pixelWidth = imgData.width * 4
+    pixelHeigh = imgData.height
+
+    for val, i in imgData.data by 4
+      index = i + 3
+
+      # We want to fade the edges out of their "face"
+      # Check to see how close they are to the center and fade based on that
+      # Pixels are 4 in length
+
+      horizontalFactor = Math.abs( .5 - Math.abs((index % pixelWidth) - pixelWidth / 2) / pixelWidth )
+      row = Math.floor index/pixelWidth
+
+      verticalFactor =  Math.abs( .5 - Math.abs((row % pixelHeigh) - pixelHeigh / 2) / pixelHeigh )
+
+#      if (index-3) / pixelWidth == Math.round (index-3) / pixelWidth
+#        console.log row, verticalFactor
+
+#      if index < pixelWidth
+#        console.log horizontalFactor
+
+      horizontalFactor *= 2
+      verticalFactor *= 2
+      lowest = horizontalFactor
+      if horizontalFactor > verticalFactor
+        lowest = verticalFactor
+
+      imgData.data[index] = lowest * 255;
+
     pixelize imgData, (imgData)->
-
-      pixelWidth = imgData.width * 4
-      pixelHeigh = imgData.height
-
-      for val, i in imgData.data by 4
-        index = i + 3
-
-        # We want to fade the edges out of their "face"
-        # Check to see how close they are to the center and fade based on that
-        # Pixels are 4 in length
-
-        horizontalFactor = Math.abs( .5 - Math.abs((index % pixelWidth) - pixelWidth / 2) / pixelWidth )
-        row = Math.floor index/pixelWidth
-
-        verticalFactor =  Math.abs( .5 - Math.abs((row % pixelHeigh) - pixelHeigh / 2) / pixelHeigh )
-
-  #      if (index-3) / pixelWidth == Math.round (index-3) / pixelWidth
-  #        console.log row, verticalFactor
-
-  #      if index < pixelWidth
-  #        console.log horizontalFactor
-
-        horizontalFactor *= 2
-        verticalFactor *= 2
-        lowest = horizontalFactor
-        if horizontalFactor > verticalFactor
-          lowest = verticalFactor
-
-        imgData.data[index] = lowest * 255;
 
       # Reverse the positioning!
       reverse = gameWidth/2 - (faceData.x + faceData.width / 2)
@@ -103,19 +104,8 @@ $document.ready ()->
       height: imgData.height
     img.on 'load', ()->
       img[0].closePixelate([
-        { shape : 'square', resolution : 2 }
-        { shape : 'square', resolution : 4 }
+        { resolution : 4 }
       ])
       canvas.width = canvas.width
       newImgData = $('.pixelator')[0].getContext('2d').getImageData(0, 0, imgData.width, imgData.height)
       cb newImgData
-
-
-
-#    myPixelation = new ClosePixelation img[0], [
-#      { resolution : 24 }
-#      { shape : 'circle', resolution : 24, size: 16, offset: 12, alpha: 0.5 }
-#    ]
-#    myPixelation.renderClosePixels
-#      resolution: 48, alpha: 0.5
-#    console.log myPixelation
