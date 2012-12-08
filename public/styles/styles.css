@@ -1,1 +1,6 @@
-
+video{float:left;width:50px;display:none;}
+canvas{width:600px;height:400px;position:absolute;top:0;left:0;}
+.canvasContainer{position:relative;width:600px;height:400px;}
+.debug{z-index:2;opacity:.5;-webkit-animation:fade 5s alternate infinite;}
+.moustache{display:none;}
+@-webkit-keyframes fade{from{opacity:.2;} to{opacity:.8;}}
