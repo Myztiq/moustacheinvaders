@@ -3,32 +3,17 @@ video{
   width: 50px;
   display: none;
 }
-canvas{
+.game{
   width: 600px;
   height: 400px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  border: 2px solid black;
 }
-.canvasContainer{
-  position: relative;
-  width: 600px;
-  height: 400px;
-}
-.debug{
-  z-index: 2;
-  opacity: .5;
-  -webkit-animation: fade 5s alternate infinite;
+.tracking{
+  display: none;
 }
 .moustache{
   display: none;
 }
-
-@-webkit-keyframes fade{
-  from{
-    opacity: .2;
-  }
-  to{
-    opacity: .8;
-  }
+.pixelatorContainer{
+  display: none;
 }
